@@ -25,8 +25,19 @@ app.get("/api/hello", function (req, res) {
 
 //timestamp microservice
 app.get("/api/:date", (req, res) => {
-  console.log(req.params.date);
-  res.json({ message: "this is working...soon" });
+  let date;
+  if (isNaN(Number(req.params.date))) {
+    date = new Date(req.params.date);
+  } else {
+    date = new Date(Number(req.params.date));
+  }
+  const time = date.getTime();
+  console.log(date);
+  if (isNaN(time)) {
+    res.json({ error: "Invalid Date" });
+  } else {
+    res.json({ unix: time, utc: date });
+  }
 });
 
 // listen for requests :)
