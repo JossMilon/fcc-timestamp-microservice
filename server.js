@@ -24,14 +24,17 @@ app.get("/api/hello", function (req, res) {
 });
 
 //timestamp microservice
-app.get("/api/:date", (req, res) => {
+app.get("/api/:date?", (req, res) => {
   let date;
-  if (isNaN(Number(req.params.date))) {
+  if (!req.params.date) {
+    date = new Date();
+  } else if (isNaN(Number(req.params.date))) {
     date = new Date(req.params.date);
   } else {
     date = new Date(Number(req.params.date));
   }
   const time = date.getTime();
+  const formattedDate = "";
   console.log(date);
   if (isNaN(time)) {
     res.json({ error: "Invalid Date" });
