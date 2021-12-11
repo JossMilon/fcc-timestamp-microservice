@@ -25,6 +25,21 @@ app.get("/api/hello", function (req, res) {
 
 //timestamp microservice
 app.get("/api/:date?", (req, res) => {
+  const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
   let date;
   if (!req.params.date) {
     date = new Date();
@@ -33,13 +48,11 @@ app.get("/api/:date?", (req, res) => {
   } else {
     date = new Date(Number(req.params.date));
   }
-  const time = date.getTime();
-  const formattedDate = "";
-  console.log(date);
-  if (isNaN(time)) {
+  // Fri, 25 Dec 2015 00:00:00 GMT
+  if (isNaN(date.getTime())) {
     res.json({ error: "Invalid Date" });
   } else {
-    res.json({ unix: time, utc: date });
+    res.json({ unix: date.getTime(), utc: date.toUTCString() });
   }
 });
 
